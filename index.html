@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PPT 备注打印排版</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="app-header">
+  <div class="app-header-inner">
+    <h1>PPT 备注打印排版</h1>
+    <p class="tagline">把幻灯片和逐字稿/备注排在同一页 A4 上，方便打印出来温习。文件只在本机处理，不会上传到任何服务器。</p>
+  </div>
+</header>
+
+<main>
+  <!-- 上传区 -->
+  <section id="dropzone" class="dropzone">
+    <div class="dz-inner">
+      <div class="dz-icon">📑</div>
+      <p class="dz-title">把文件拖到这里</p>
+      <p class="dz-or">或者</p>
+      <button id="pickBtn" class="btn btn-primary">选择文件</button>
+      <input type="file" id="fileInput" accept=".pptx,.pdf" multiple hidden>
+      <p class="dz-hint">
+        <b>必选 .pptx 文件</b> —— 用来读取备注。<br>
+        <b>建议同时选上这份 PPT 导出的 .pdf</b> —— 幻灯片画面交给 PDF，与原稿完全一致。<br>
+        只给 PPT 也能用，但画面是软件自动渲染的，可能与原稿有偏差。
+      </p>
+      <p class="dz-sample">没有文件？<button id="sampleBtn" class="linkbtn">用示例文件试试</button></p>
+    </div>
+  </section>
+
+  <!-- 状态/错误提示 -->
+  <section id="status" class="status" hidden></section>
+
+  <!-- 工作区 -->
+  <div id="workspace" class="workspace" hidden>
+    <aside id="controls" class="controls">
+      <div class="ctrl-group">
+        <span class="ctrl-label">幻灯片画面</span>
+        <div class="seg" data-control="picSource">
+          <button type="button" data-value="render" class="active">自动渲染</button>
+          <button type="button" data-value="pdf" disabled>用 PDF</button>
+        </div>
+        <button id="pdfBtn" class="btn btn-mini">＋ 加载导出的 PDF（画面更精确）</button>
+        <input type="file" id="pdfInput" accept=".pdf" hidden>
+        <p class="ctrl-tip" id="picTip">「自动渲染」可能与原 PPT 有偏差；加载同一份 PPT 导出的 PDF，可让画面精确还原。</p>
+      </div>
+
+      <div class="ctrl-group">
+        <span class="ctrl-label">版式</span>
+        <div class="seg" data-control="layout">
+          <button type="button" data-value="side" class="active">左图右文</button>
+          <button type="button" data-value="stack">上图下文</button>
+        </div>
+      </div>
+
+      <div class="ctrl-group">
+        <span class="ctrl-label">每页幻灯片数</span>
+        <div class="seg" data-control="perPage">
+          <button type="button" data-value="2">2</button>
+          <button type="button" data-value="3" class="active">3</button>
+          <button type="button" data-value="4">4</button>
+          <button type="button" data-value="5">5</button>
+        </div>
+        <p class="ctrl-tip">逐字稿很长时，该页会自动少放几张。</p>
+      </div>
+
+      <div class="ctrl-group">
+        <span class="ctrl-label">备注字号</span>
+        <div class="seg" data-control="noteSize">
+          <button type="button" data-value="s">小</button>
+          <button type="button" data-value="m" class="active">中</button>
+          <button type="button" data-value="l">大</button>
+        </div>
+      </div>
+
+      <div class="ctrl-group">
+        <label class="chk"><input type="checkbox" id="showNum" checked> 显示页码</label>
+        <label class="chk"><input type="checkbox" id="hideEmpty"> 隐藏无备注的页</label>
+      </div>
+
+      <div class="ctrl-actions">
+        <button id="printBtn" class="btn btn-primary">打印 / 导出 PDF</button>
+        <button id="resetBtn" class="btn btn-ghost">换一个文件</button>
+      </div>
+
+      <p class="ctrl-meta" id="meta"></p>
+      <p class="ctrl-note">打印小贴士：在打印对话框里把「边距」设为默认、关闭「页眉和页脚」，并确认纸张为 A4，效果最佳。</p>
+    </aside>
+
+    <div id="preview" class="preview"></div>
+  </div>
+</main>
+
+<div id="loading" class="loading" hidden><div class="spinner"></div><span>正在解析文件…</span></div>
+
+<script src="lib/jszip.min.js"></script>
+<script src="lib/pdf.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
