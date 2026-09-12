@@ -49,6 +49,12 @@ python3 -m http.server 8000
 
 所有解析、渲染都在你自己的浏览器里完成，**PPT / PDF 不会上传到任何服务器**。
 
+## 项目更新与AI实践
+
+微信搜索公众号 **「Pamela的AI笔记」** 或扫描下方二维码，获取项目更新、最新AI应用案例和实用教程。
+
+<img src="assets/pamela-ai-notes-wechat.png" alt="微信公众号「Pamela的AI笔记」二维码" width="800">
+
 ## 技术说明
 
 - 纯前端，无后端、无构建步骤
